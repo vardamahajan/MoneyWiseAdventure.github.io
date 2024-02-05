@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: url('your-budget.png') no-repeat center center/cover;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+            width: 50%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #profile-section, #game-section {
+            text-align: center;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        #choices button {
+            margin: 0 10px;
+        }
+
+        #feedback {
+            color: #d9534f;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #result {
+            color: #5bc0de;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Animation for falling coins */
+        @keyframes fallingCoins {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .coin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: gold;
+            border-radius: 50%;
+            z-index: 100;
+            animation: fallingCoins 1.5s ease-out;
+        }
+
+        #one{
+            background-color: white;
+            width: 100%;
+            border-radius: 5px;
+            backdrop-filter: blur(0.9px);
+        }
+    </style>
+    <title>PriortyPonderChallenge</title>
+</head>
+<body>
+    <div class="container">
+        <div id="one">
+            <h1>PriortyPonderChallenge</h1>
+            <div id="profile-section">
+                <label for="income">Your income: 30,000 rupees </label> <br> <br>
+                <button onclick="startGame()">Start Game</button>
+            </div>
+        </div>
+
+        <div id="game-section" style="display: none;">
+            <p id="level-text"></p>
+            <p id="situation-text">Choose a scenario:</p>
+            <div id="choices">
+                <!-- Buttons for "Needs" and "Wants" will be dynamically added here -->
+            </div>
+            <p id="feedback" style="display: none;"></p>
+        </div>
+
+        <p id="result" style="display: none;">Result will be displayed here.</p>
+        <button id="next-scenario-button" style="display: none;" onclick="nextScenario()">Move to Next Level</button>
+    </div>
+<script>
+    let income = 30000;
+    let scenarios = [];
+    let currentScenarioIndex = 0;
+    let correctChoices = 0;
+    let virtualCoins = 0;
+    let currentLevel = 1;
+
+    function startGame() {
+        scenarios = [
+            { text: 'Pay house rent.', category: 'needs' },
+            { text: 'Buy groceries.', category: 'needs' },
+            { text: 'Medical treatments.', category: 'needs' },
+            { text: 'Go on a vacation.', category: 'wants' },
+            { text: 'Buy a new smartphone.', category: 'wants' },
+            { text: 'Save for retirement.', category: 'needs' },
+            { text: 'Invest in education.', category: 'needs' },
+            { text: 'Dine out at a fancy restaurant.', category: 'wants' },
+            { text: 'Contribute to a charity.', category: 'needs' },
+            { text: 'Buy a fitness tracker.', category: 'wants' },
+            // Add more scenarios as needed
+        ];
+
+        currentScenarioIndex = 0;
+        correctChoices = 0;
+        virtualCoins = 0;
+
+        document.getElementById('profile-section').style.display = 'none';
+        document.getElementById('game-section').style.display = 'block';
+
+        displayLevel();
+        displayScenario();
+    }
+
+    function displayLevel() {
+        document.getElementById('level-text').textContent = `LEVEL ${currentLevel}`;
+    }
+
+    function displayScenario() {
+        const scenarioText = scenarios[currentScenarioIndex].text;
+        document.getElementById('situation-text').textContent = `Scenario: ${scenarioText}`;
+
+        const choicesContainer = document.getElementById('choices');
+        choicesContainer.innerHTML = '';
+
+        const needsButton = document.createElement('button');
+        needsButton.textContent = 'Needs';
+        needsButton.onclick = () => makeChoice('needs');
+        choicesContainer.appendChild(needsButton);
+
+        const wantsButton = document.createElement('button');
+        wantsButton.textContent = 'Wants';
+        wantsButton.onclick = () => makeChoice('wants');
+        choicesContainer.appendChild(wantsButton);
+
+        document.getElementById('feedback').style.display = 'none';
+    }
+
+    function makeChoice(userChoice) {
+        const correctCategory = scenarios[currentScenarioIndex].category;
+        const feedbackElement = document.getElementById('feedback');
+
+        if (userChoice === correctCategory) {
+            correctChoices++;
+            virtualCoins += 10;
+            feedbackElement.style.display = 'none';
+
+            // Create falling coins animation after every choice
+            for (let i = 0; i < 10; i++) {
+                createFallingCoin(i);
+            }
+        } else {
+            feedbackElement.style.display = 'block';
+            feedbackElement.textContent = `You chose ${userChoice}, but this scenario is categorized as ${correctCategory}.`;
+
+            if (correctCategory === 'needs') {
+                feedbackElement.textContent += ' Consider prioritizing essential needs.';
+            } else {
+                feedbackElement.textContent += ' Consider distinguishing between needs and wants for better budgeting.';
+            }
+        }
+
+        currentScenarioIndex++;
+        if (currentScenarioIndex < scenarios.length) {
+            displayScenario();
+        } else {
+            endGame();
+        }
+    }
+
+    function endGame() {
+        const accuracy = (correctChoices / scenarios.length) * 100;
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = `Your accuracy: ${accuracy.toFixed(2)}%. You earned ${virtualCoins} virtual coins! Level ${currentLevel} completed!`;
+
+        if (currentLevel < 3) {
+            resultElement.textContent += ` Click "Move to Next Level" to proceed to the next level.`;
+            document.getElementById('next-scenario-button').style.display = 'block';
+        } else {
+            resultElement.textContent += ` Congratulations! You've completed all levels.`;
+        }
+
+        resultElement.style.display = 'block';
+
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('next-scenario-button').onclick = startNextLevel;
+    }
+
+    function startNextLevel() {
+        currentLevel++;
+        document.getElementById('next-scenario-button').style.display = 'none';
+        startGame(); // For simplicity, restarting the game
+    }
+
+    function startNextLevel() {
+            // Redirect to the new webpage containing the second code
+            window.location.href = 'finallevel2.html';
+        }
+
+    function createFallingCoin(index) {
+        const coin = document.createElement('div');
+        coin.classList.add('coin');
+        coin.style.left = `${(index * 8) + 10}vw`; // Adjust the multiplier for equal distance
+        document.body.appendChild(coin);
+
+        coin.addEventListener('animationend', () => {
+            coin.remove();
+        });
+    }
+</script>

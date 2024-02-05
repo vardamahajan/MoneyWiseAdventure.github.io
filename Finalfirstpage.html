@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyWise Adventure</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        body {
+            background: PURPLE;
+        }
+
+        .container {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+        }
+
+        .container span {
+            display: inline-block;
+            animation: jump 1.5s infinite alternate; /* Jumping animation */
+        }
+
+        .text1 {
+            color: rgb(253, 250, 250);
+            font-size: 70px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            background: PURPLE;
+            position: relative;
+            animation: text 3s 1;
+        }
+
+        .text2 {
+            font-size: 40px;
+            color: WHITE;
+            font-family: Georgia, serif;
+        }
+
+        @keyframes text {
+            0% {
+                color: blue;
+                margin-bottom: -120px;
+            }
+
+            30% {
+                letter-spacing: 20px;
+                margin-bottom: -40px;
+            }
+
+            85% {
+                letter-spacing: 8px;
+                margin-bottom: -40px;
+            }
+        }
+
+        @keyframes jump {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: white;
+        }
+
+        .welcome-container,
+        .form-container,
+        .journey-container {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .welcome-container {
+            padding: 100px 0;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .start-button,
+        #submit-btn,
+        .option-btn {
+            background-color: black;
+            color: red;
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            margin: 5px;
+        }
+
+        .form-container,
+        .journey-container {
+            display: none;
+        }
+
+        .form-container {
+            background: linear-gradient(45deg, white, white);
+            color: black;
+            padding: 15px 30px;
+            font-size: 19px;
+            cursor: pointer;
+            border: none;
+            border-radius: 20px;
+            margin: 60px;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .journey-container {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .options-container {
+            margin-top: 80px;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+            height: 200px;
+            width: 200px;
+        }
+
+        @import url("https://fonts.googleapis.com/css?family=Luckiest+Guy&display=swap");
+
+        body,
+        html {
+            background: radial-gradient(
+                circle,
+                rgba(108, 11, 113, 0.798) 0%,
+                rgba(108, 11, 113, 0.798) 0%
+            );
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Luckiest Guy", cursive;
+        }
+
+        h6 {
+            margin: 0;
+            font-size: 4em;
+            padding: 0;
+            color: white;
+            text-shadow: 0 0.1em 20px rgb(177, 172, 172), 0.05em -0.03em 0 rgba(0, 0, 0, 1),
+                0.05em 0.005em 0 rgb(242, 237, 237), 0em 0.08em 0 rgba(0, 0, 0, 1),
+                0.05em 0.08em 0 rgb(60, 54, 54), 0px -0.03em 0 rgb(78, 73, 73),
+                -0.03em -0.03em 0 rgb(55, 53, 53), -0.03em 0.08em 0 rgb(57, 54, 54), -0.03em 0 0 rgba(0, 0, 0, 1);
+            span {
+                transform: scale(0.9);
+                display: inline-block;
+            }
+
+            span:first-child {
+                animation: bop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards infinite
+                alternate;
+            }
+
+            span:last-child {
+                animation: bopB 1s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards
+                infinite alternate;
+            }
+        }
+
+        @keyframes bop {
+            0% {
+                transform: scale(0.9);
+            }
+
+            50%,
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bopB {
+            0% {
+                transform: scale(0.9);
+            }
+
+            80%,
+            100% {
+                transform: scale(1) rotateZ(-3deg);
+            }
+        }
+
+        input {
+            border-radius: 20px;
+            height: 40px;
+            width: 280px;
+        }
+
+        h2 {
+            color: white;
+        }
+        h2 {
+            margin: 0;
+            font-size: 2em;
+            padding: 0;
+            color: white;
+            text-shadow: 0 0.1em 20px rgba(114, 110, 110, 0.597), 0.05em -0.03em 0 rgba(0, 0, 0, 1),
+                0.05em 0.005em 0 rgb(114, 111, 111), 0em 0.08em 0 rgba(0, 0, 0, 1),
+                0.05em 0.08em 0 rgb(91, 74, 74), 0px -0.03em 0 rgb(91, 87, 87),
+                -0.03em -0.03em 0 rgb(63, 57, 57), -0.03em 0.08em 0 rgb(71, 68, 68), -0.03em 0 0 rgba(0, 0, 0, 1);
+            span {
+                transform: scale(0.9);
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Welcome container -->
+    <div class="welcome-container">
+        <img src="moneywise logo.png" alt="MoneyWise Adventure Logo" class="logo">
+        <h2>
+            <span>Welcome</span>
+            <span>to</span>
+        </h2>
+        <h6><span>"MONEY</span><span>WISE"</span></h6>
+        <h2>Adventure World</h2> <br>
+        <button class="start-button" onclick="showForm()">Start</button>
+    </div>
+
+    <!-- Form container -->
+    <div class="form-container" id="formContainer">
+        <h2>Create an Account</h2><br><br>
+        <!-- Form with input fields and submit button -->
+        <form id="moneyWiseForm">
+            <input type="text" placeholder="Name" required><br> <br>
+            <input type="number" placeholder="Age" required><br> <br>
+            <input type="email" placeholder="Email" required><br> <br>
+            <input type="password" placeholder="Password" required><br> <br>
+            <button type="button" id="submit-btn" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+
+    <!-- Journey container -->
+    <div class="journey-container" id="journeyContainer">
+        <h2>Are you ready to start your MoneyWise Adventure?</h2>
+        <div class="options-container">
+            <button class="option-btn" onclick="startJourney()">Yes</button>
+            <button class="option-btn" onclick="endJourney()">No</button>
+        </div>
+    </div>
+
+    <script>
+        function showForm() {
+            var welcomeContainer = document.querySelector('.welcome-container');
+            var formContainer = document.getElementById('formContainer');
+
+            // Hide welcome container with fade-out effect
+            welcomeContainer.style.opacity = 0;
+
+            // Show form container with fade-in effect after a delay
+            setTimeout(function () {
+                welcomeContainer.style.display = 'none';
+                formContainer.style.display = 'block';
+                formContainer.style.opacity = 1;
+            }, 500); // 500 milliseconds delay, should match the transition duration
+        }
+
+        function submitForm() {
+            var formContainer = document.getElementById('formContainer');
+            var journeyContainer = document.getElementById('journeyContainer');
+
+            // Hide form container with fade-out effect
+            formContainer.style.opacity = 0;
+
+            // Show journey container with fade-in effect after a delay
+            setTimeout(function () {
+                formContainer.style.display = 'none';
+                journeyContainer.style.display = 'block';
+                journeyContainer.style.opacity = 1;
+            }, 500); // 500 milliseconds delay, should match the transition duration
+        }
+
+        function startJourney() {
+            // Add logic to start the journey (e.g., navigate to a new page)
+            alert('Let the MoneyWise Adventure begin!');
+        }
+
+        function redirectToSecondPage() {
+            window.location.href = 'firstlevel1.html'; // Change 'second_page.html' to the name of your second HTML file
+        }
+
+        function startJourney() {
+            redirectToSecondPage(); // Call the function to redirect the user
+        }
+
+       
+
+
+        function endJourney() {
+            // Add logic for ending the journey or handling the "No" option
+            alert('Maybe next time. Have a great day!');
+        }
+    </script>
+</body>
+
+</html>

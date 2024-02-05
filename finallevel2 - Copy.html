@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiseWallet Challenge</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #level-heading {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .container::before {
+            content: "";
+            background: url('bcimage3.jpg') no-repeat center center/cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100%;
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #progress-bar-container, #result, #congrats1, #congrats2, #recommendation {
+            display: none;
+            color: green;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="level-heading">
+        LEVEL 2: WiseWallet Challenge
+    </div>
+
+    <div id="progress-bar-container" class="container">
+        <h2>Progress Indicator</h2>
+        <progress id="progress-bar" max="2" value="0"></progress>
+    </div>
+
+    <div class="container" id="task1">
+        <h2>Task 1: Budget Allocation</h2>
+        <p>Allocate your budget for essential tasks when the total monthly income is $30000 such that you should have savings of $7000:</p>
+        <label for="housing">Housing:</label>
+        <select id="housing">
+            <option value="9000" selected>Option 1: $9000</option>
+            <option value="8000">Option 2: $8000</option>
+            <option value="10000">Option 3: $10000</option>
+        </select>
+        <br>
+        <br>
+        <label for="transportation">Transportation:</label>
+        <select id="transportation">
+            <option value="3000" selected>Option 1: $3000</option>
+            <option value="2500">Option 2: $2500</option>
+            <option value="3500">Option 3: $3500</option>
+        </select>
+        <br>
+        <br>
+        <label for="education">Education:</label>
+        <select id="education">
+            <option value="3500" selected>Option 1: $3500</option>
+            <option value="3000">Option 2: $3000</option>
+            <option value="4000">Option 3: $4000</option>
+        </select>
+        <br>
+        <br>
+        <label for="entertainment">Entertainment:</label>
+        <select id="entertainment">
+            <option value="3000" selected>Option 1: $3000</option>
+            <option value="2500">Option 2: $2500</option>
+            <option value="3500">Option 3: $3500</option>
+        </select>
+        <br>
+        <br>
+        <label for="groceries">Groceries:</label>
+        <select id="groceries">
+            <option value="4500" selected>Option 1: $4500</option>
+            <option value="4000">Option 2: $4000</option>
+            <option value="5000">Option 3: $5000</option>
+        </select>
+        <br>
+        <br>
+        <label for="savings">Savings:</label>
+        <select id="savings">
+            <option value="7000" selected>Option 1: $7000</option>
+            <option value="6500">Option 2: $6500</option>
+            <option value="7500">Option 3: $7500</option>
+        </select>
+        <br>
+        <br>
+        <button onclick="evaluateTask1()">Next</button>
+    </div>
+
+    <div class="container" id="task2" style="display: none;">
+        <h2>Task 2: Unexpected Challenge</h2>
+        <p>Imagine a scenario where any emergency such as a medical emergency, household repairs, or a reduction in income occurs. Choose what will you do when stuck in such a scenario and remember you have a saving of $7000:</p>
+        <button onclick="selectOption('EmergencyFund')">Emergency Fund Activation</button>
+        <button onclick="selectOption('HighRiskInvestment')">High-Risk Investment</button>
+        <button onclick="selectOption('CreditCardDependence')">Credit Card Dependence</button>
+        <button onclick="selectOption('DelayingAction')">Delaying Action</button>
+        <button onclick="evaluateTask2()">Finish Game</button>
+        <div id="recommendation" style="text-align: left; margin-top: 20px;">
+            <p id="recommendationText"></p>
+        </div>
+    </div>
+
+    <div class="container" id="congrats1" style="display: none;">
+        <h3>Congratulations!</h3>
+        <p>Total Virtual Coins Earned: <span id="totalCoins1"></span></p>
+        
+        <button onclick="nextLevel()">Next Level</button>
+        <button onclick="retryGame()">Retry</button>
+    </div>
+
+    <div class="container" id="congrats2" style="display: none;">
+        <h3>Congratulations!</h3>
+        <p>Total Virtual Coins Earned: <span id="totalCoins2"></span></p>
+        
+        <button onclick="nextLevel()">Next Level</button>
+        <button onclick="retryGame()">Retry</button>
+    </div>
+
+    <script>
+        let task1Completed = false;
+        let task2Completed = false;
+        let correctOptionsChosen = 0;
+        let savings = 0;
+
+        function evaluateTask1() {
+            const housing = parseInt(document.getElementById('housing').value);
+            const transportation = parseInt(document.getElementById('transportation').value);
+            const education = parseInt(document.getElementById('education').value);
+            const entertainment = parseInt(document.getElementById('entertainment').value);
+            const groceries = parseInt(document.getElementById('groceries').value);
+            const savingsInput = parseInt(document.getElementById('savings').value);
+
+            const correctHousing = 9000;
+            const correctTransportation = 3000;
+            const correctEducation = 3500;
+            const correctEntertainment = 3000;
+            const correctGroceries = 4500;
+            const correctSavings = 7000;
+
+            if (
+                housing === correctHousing &&
+                transportation === correctTransportation &&
+                education === correctEducation &&
+                entertainment === correctEntertainment &&
+                groceries === correctGroceries &&
+                savingsInput === correctSavings
+            ) {
+                task1Completed = true;
+                document.getElementById('task1').style.display = 'none';
+                document.getElementById('task2').style.display = 'block';
+                updateProgressBar(1);
+            } else {
+                alert('Incorrect options selected. Please allocate the budget correctly.');
+            }
+        }
+
+        function evaluateTask2() {
+            let totalCoins = calculateCoins();
+            document.getElementById('task2').style.display = 'none';
+
+            if (totalCoins > 100) {
+                document.getElementById('congrats2').style.display = 'block';
+                document.getElementById('totalCoins2').innerText = totalCoins;
+                updateProgressBar(2);
+            } else {
+                document.getElementById('congrats1').style.display = 'block';
+                document.getElementById('totalCoins1').innerText = totalCoins;
+            }
+
+            displayRecommendation();
+        }
+
+        function displayRecommendation() {
+            let recommendationText = "Recommendation: ";
+
+            if (correctOptionsChosen === 4) {
+                recommendationText += "Great job on making wise financial decisions!";
+            } else if (correctOptionsChosen === 3) {
+                recommendationText += "Good effort, but there's room for improvement.";
+            } else {
+                recommendationText += "Consider revisiting your financial choices for better outcomes.";
+            }
+
+            document.getElementById('recommendationText').innerText = recommendationText;
+            document.getElementById('recommendation').style.display = 'block';
+        }
+
+        function selectOption(option) {
+            switch (option) {
+                case 'EmergencyFund':
+                    alert('Congratulations! You chose to activate the Emergency Fund.');
+                    correctOptionsChosen++;
+                    break;
+                case 'HighRiskInvestment':
+                    alert('Incorrect! High-risk investments may lead to further financial challenges.');
+                    break;
+                case 'CreditCardDependence':
+                    alert('Incorrect! Relying heavily on credit cards can accumulate debt.');
+                    break;
+                case 'DelayingAction':
+                    alert('Incorrect! Postponing action may worsen the financial situation.');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function calculateCoins() {
+            let totalCoins = 0;
+
+            if (task1Completed) {
+                totalCoins += 150;
+            }
+
+            if (task2Completed) {
+                totalCoins += 100;
+            }
+
+            return totalCoins;
+        }
+
+        function retryGame() {
+            task1Completed = false;
+            task2Completed = false;
+            correctOptionsChosen = 0;
+            document.getElementById('task1').style.display = 'block';
+            document.getElementById('task2').style.display = 'none';
+            document.getElementById('congrats1').style.display = 'none';
+            document.getElementById('congrats2').style.display = 'none';
+            document.getElementById('recommendation').style.display = 'none';
+            document.getElementById('progress-bar').value = 0;
+        }
+
+        function nextLevel() {
+            // Logic to proceed to the next level goes here
+            alert('Move to the next level or perform other actions here.');
+        }
+
+        function nextLevel() {
+        window.location.href = 'ThirdlevelResult.html'; // Replace 'second_code.html' with the actual filename of your second HTML file
+    }
+    
+
+        function updateProgressBar(value) {
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.value = value;
+        }
+       
+    </script>
+</body>
+</html>

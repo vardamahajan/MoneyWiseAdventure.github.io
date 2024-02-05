@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Market Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+      font-family: system-ui;
+      position: relative;
+    }
+    
+    .container::before {
+      content: "";
+      background: url('stock1.jpg') no-repeat center center/cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 1800px;
+      width: 100%;
+      z-index: -1;
+      opacity: 0.9;
+    }
+    
+    .graph {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin: 20px;
+      padding: 20px;
+      display: inline-block;
+      cursor: pointer;
+      backdrop-filter: blur(9px);
+    }
+    
+    .selected {
+      border: 4px solid white;
+    }
+
+    #submitBtn {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    #submitBtn:hover {
+      background-color: #45a049;
+    }
+
+    /* Popup styles */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .popup {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    @keyframes lights {
+      0% {
+        color: hsl(230, 40%, 80%);
+        text-shadow:
+          0 0 1em hsla(320, 100%, 50%, 0.2),
+          0 0 0.125em hsla(320, 100%, 60%, 0.3),
+          -1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
+          1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
+      }
+      
+      30% { 
+        color: hsl(230, 80%, 90%);
+        text-shadow:
+          0 0 1em hsla(320, 100%, 50%, 0.5),
+          0 0 0.125em hsla(320, 100%, 60%, 0.5),
+          -0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
+          0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
+      }
+      
+      40% { 
+        color: hsl(230, 100%, 95%);
+        text-shadow:
+          0 0 1em hsla(320, 100%, 50%, 0.5),
+          0 0 0.125em hsla(320, 100%, 90%, 0.5),
+          -0.25em -0.125em 0.125em hsla(40, 100%, 60%, 0.2),
+          0.25em 0.125em 0.125em hsla(200, 100%, 60%, 0.4);
+      }
+      
+      70% {
+        color: hsl(230, 80%, 90%);
+        text-shadow:
+          0 0 1em hsla(320, 100%, 50%, 0.5),
+          0 0 0.125em hsla(320, 100%, 60%, 0.5),
+          0.5em -0.125em 0.25em hsla(40, 100%, 60%, 0.2),
+          -0.5em 0.125em 0.25em hsla(200, 100%, 60%, 0.4);
+      }
+      
+      100% {
+        color: hsl(230, 40%, 80%);
+        text-shadow:
+          0 0 1em hsla(320, 100%, 50%, 0.2),
+          0 0 0.125em hsla(320, 100%, 60%, 0.3),
+          1em -0.125em 0.5em hsla(40, 100%, 60%, 0),
+          -1em 0.125em 0.5em hsla(200, 100%, 60%, 0);
+      }
+    }
+
+    h1 {
+      margin: auto;
+      font-size: 3.5rem;
+      font-weight: 300;
+      animation: lights 5s 750ms linear infinite;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>BULL RUN BONANZA</h1> <br>
+    <p><h2>Choose the most investible stock market index:</h2></p>
+    <div class="graphs">
+      <div class="graph" id="graph1">
+        <h2>Graph 1: S&P 500</h2>
+        <!-- Replace the src attribute with the actual URL of the graph image -->
+        <img src="sp 500.png" alt="S&P 500 Graph">
+      </div>
+      <div class="graph" id="graph2">
+        <h2>Graph 2: Sensex</h2>
+        <!-- Replace the src attribute with the actual URL of the graph image -->
+        <img src="sensex.png" alt="sensex Graph">
+      </div>
+      <div class="graph" id="graph3">
+        <h2>Graph 3: Dow Jones</h2>
+        <!-- Replace the src attribute with the actual URL of the graph image -->
+        <img src="dow jones.png" alt="Dow Jones Industrial Average Graph">
+      </div>
+      <div class="graph" id="graph4">
+        <h2>Graph 4: Nifty 50</h2>
+        <!-- Replace the src attribute with the actual URL of the graph image -->
+        <img src="n50.png" alt="Nifty50 Graph">
+      </div>
+    </div>
+    <button id="submitBtn">Submit</button>
+    <p id="result"></p>
+  </div>
+
+  <!-- Popup HTML -->
+  <div class="overlay" id="overlay">
+    <div class="popup">
+      <span class="close-btn" id="closeBtn">&times;</span>
+      <div id="popupContent"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const graphs = document.querySelectorAll('.graph');
+      const submitBtn = document.getElementById('submitBtn');
+      const resultText = document.getElementById('result');
+      const overlay = document.getElementById('overlay');
+      const closeBtn = document.getElementById('closeBtn');
+
+      graphs.forEach(graph => {
+        graph.addEventListener('click', function() {
+          graphs.forEach(g => g.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+
+      submitBtn.addEventListener('click', function() {
+        const selectedGraph = document.querySelector('.graph.selected');
+        if (selectedGraph) {
+          const graphName = selectedGraph.querySelector('h2').textContent;
+          let points = 0;
+
+          if (graphName === 'Graph 3: Dow Jones') {
+            // Correct answer, give full points
+            points = 200;
+            document.getElementById('popupContent').innerHTML = '<h2>Correct!</h2><p>You earned 200 points!</p>';
+          } else {
+            // Incorrect answer, give 0 points
+            document.getElementById('popupContent').innerHTML = '<h2>Incorrect!</h2><p>Refresh to try again.</p>';
+          }
+
+          overlay.style.display = 'flex';
+        } else {
+          resultText.textContent = 'Please select a graph before submitting.';
+        }
+      });
+
+      // Close popup when close button is clicked
+      closeBtn.addEventListener('click', function() {
+        overlay.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

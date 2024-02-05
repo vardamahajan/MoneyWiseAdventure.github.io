@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyWise Adventure</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .welcome-container, .form-container, .journey-container {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .welcome-container {
+            padding: 100px 0;
+        }
+
+        .start-button, #submit-btn, .option-btn {
+            background-color: #3498db;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        .form-container, .journey-container {
+            display: none;
+        }
+
+        .form-container {
+            background: linear-gradient(45deg, #4CAF50, #3498db);
+            color: #fff;
+        }
+
+        .options-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Welcome container -->
+<div class="welcome-container">
+    <h1>Welcome to MoneyWise Adventure World</h1>
+    <button class="start-button" onclick="showForm()">Start</button>
+</div>
+
+<!-- Form container -->
+<div class="form-container" id="formContainer">
+    <h2>Create an Account</h2>
+    <!-- Form with input fields and submit button -->
+    <form id="moneyWiseForm">
+        <input type="text" placeholder="Name" required><br>
+        <input type="number" placeholder="Age" required><br>
+        <input type="email" placeholder="Email" required><br>
+        <input type="password" placeholder="Password" required><br>
+        <button type="button" id="submit-btn" onclick="submitForm()">Submit</button>
+    </form>
+</div>
+
+<!-- Journey container -->
+<div class="journey-container" id="journeyContainer">
+    <h2>Are you ready to start your MoneyWise Adventure?</h2>
+    <div class="options-container">
+        <button class="option-btn" onclick="startJourney()">Yes</button>
+        <button class="option-btn" onclick="endJourney()">No</button>
+    </div>
+</div>
+
+<script>
+    function showForm() {
+        document.querySelector('.welcome-container').style.display = 'none';
+        document.getElementById('formContainer').style.display = 'block';
+    }
+
+    function submitForm() {
+        document.getElementById('formContainer').style.display = 'none';
+        document.getElementById('journeyContainer').style.display = 'block';
+    }
+
+    function startJourney() {
+        // Add logic to start the journey (e.g., navigate to a new page)
+        alert('Let the MoneyWise Adventure begin!');
+    }
+
+    function endJourney() {
+        // Add logic for ending the journey or handling the "No" option
+        alert('Maybe next time. Have a great day!');
+    }
+</script>
+</body>
+</html>
